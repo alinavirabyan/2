@@ -1,0 +1,51 @@
+def magical_cows_queries(C, N, cows, queries):
+    max_day = 0
+    for q in queries:
+        if q > max_day:
+            max_day = q
+
+    dp = []
+    for i in range(max_day + 2):
+        dp.append({})
+
+    for cow_count in cows:
+        if cow_count in dp[0]:
+            dp[0][cow_count] = dp[0][cow_count] + 1
+        else:
+            dp[0][cow_count] = 1
+
+    for day in range(max_day):
+        for x in dp[day]:
+            count = dp[day][x]
+            if x <= C // 2:
+                new_x = x * 2
+                if new_x in dp[day + 1]:
+                    dp[day + 1][new_x] = dp[day + 1][new_x] + count
+                else:
+                    dp[day + 1][new_x] = count
+            else:
+                if x in dp[day + 1]:
+                    dp[day + 1][x] = dp[day + 1][x] + count * 2
+                else:
+                    dp[day + 1][x] = count * 2
+
+    for m in queries:
+        total_farms = 0
+        for val in dp[m].values():
+            total_farms = total_farms + val
+        print("\n Day", m, ":", total_farms, "farms")
+
+C = int(input("Enter max number of cows in one farm (C): "))
+N = int(input("Enter number of initial farms (N): "))
+cows_input = input("Enter cows in each farm (e.g. 1 3 2 1): ")
+cows = []
+for s in cows_input.split():
+    cows.append(int(s))
+
+M = int(input("Enter number of queries (M): "))
+queries_input = input("Enter query days (e.g. 2 3 5): ")
+queries = []
+for s in queries_input.split():
+    queries.append(int(s))
+
+magical_cows_queries(C, N, cows, queries)
