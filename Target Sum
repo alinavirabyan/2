@@ -2,19 +2,24 @@ def findTargetSumWays(nums, target):
     memo = {}
 
     def dfs(index, total):
+        key = (index, total)
+        if key in memo:
+            return memo[key]
+
         if index == len(nums):
-            return 1 if total == target else 0
+            if total == target:
+                return 1
+            else:
+                return 0
 
-        if (index, total) in memo:
-            return memo[(index, total)]
+        add = dfs(index + 1, total + nums[index])
+        subtract = dfs(index + 1, total - nums[index])
 
-        plus = dfs(index + 1, total + nums[index])
-        minus = dfs(index + 1, total - nums[index])
-
-        memo[(index, total)] = plus + minus
-        return memo[(index, total)]
+        memo[key] = add + subtract
+        return memo[key]
 
     return dfs(0, 0)
 
-print('Example1',findTargetSumWays([1,1,1,1,1], 3))  
-print('Example2',findTargetSumWays([1], 1))          
+print("Example1", findTargetSumWays([1, 1, 1, 1, 1], 3))
+print("Example2", findTargetSumWays([1], 1))
+
