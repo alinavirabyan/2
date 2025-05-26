@@ -21,6 +21,6 @@ def findRedundantConnection(edges):
 
     return []
 
-# Example usage
+
 print('Example1',findRedundantConnection([[1,2],[1,3],[2,3]]))        
 print('Example2',findRedundantConnection([[1,2],[2,3],[3,4],[1,4],[1,5]]))  
